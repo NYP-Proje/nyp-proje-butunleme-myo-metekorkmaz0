@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Müşteri Paneli - Taleplerim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card p-4 mb-4 shadow-sm bg-white">
+        <h2 class="text-success" th:text="${customer.companyName + ' - Destek Paneli'}"></h2>
+        <p class="text-muted" th:text="${'Hoş geldiniz, ' + customer.name}"></p>
+        <div>
+            <a th:href="@{/tickets/customer/{id}/new(id=${customer.id})}" class="btn btn-primary">+ Yeni Destek Talebi Oluştur</a>
+        </div>
+    </div>
+
+    <h4>Geçmiş Talepleriniz</h4>
+    <table class="table table-bordered bg-white">
+        <thead class="table-secondary">
+        <tr>
+            <th>Talep No</th>
+            <th>Başlık</th>
+            <th>Detay</th>
+            <th>Öncelik</th>
+            <th>Durum</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticket : ${tickets}">
+            <td th:text="${ticket.id}"></td>
+            <td th:text="${ticket.title}"></td>
+            <td th:text="${ticket.description}"></td>
+            <td th:text="${ticket.priority}"></td>
+            <td>
+                <span th:if="${ticket.status == 'OPEN'}" class="badge bg-danger">Müşteri Temsilcisi Bekleniyor</span>
+                <span th:if="${ticket.status == 'IN_PROGRESS'}" class="badge bg-warning text-dark">Ekibimiz İnceliyor</span>
+                <span th:if="${ticket.status == 'RESOLVED'}" class="badge bg-success">Sorun Çözüldü</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/customers}" class="btn btn-sm btn-link mt-3">Müşteri Seçim Ekranına Dön</a>
+</div>
+</body>
+</html>
